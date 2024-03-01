@@ -1,0 +1,264 @@
+﻿@model testColegio.Models.SolicitudView
+
+
+@{
+    ViewBag.Title = "Registro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Registro</h1>
+
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-primary" onclick="GrabarDatos()">Grabar</button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Alumno </label>
+        <div class="col-md-10">
+            <select id="cbnIdAlumno" class="form-control">
+                @foreach (var alum in ViewBag.listaAlumnos)
+                {
+                    if (Model.IdAlumno == alum.IdAlumno)
+                    {
+                        <option selected value="@alum.IdAlumno">@alum.Nombres </option>
+                    }
+                    else
+                    {
+                        <option value="@alum.IdAlumno">@alum.Nombres </option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Fecha solicitud </label>
+        <div class="col-md-10">
+            <input type="date" id="txtFechaSolicitud" class="form-control" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Codigo registrante </label>
+        <div class="col-md-10">
+            <input type="text" id="txtCodRegistrante" class="form-control" value="@Model.CodRegistrante" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Carrera </label>
+        <div class="col-md-10">
+            <input type="text" id="txtCarrera" class="form-control" value="@Model.Carrera" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Periodo </label>
+        <div class="col-md-10">
+            <input type="text" id="txtPeriodo" class="form-control" value="@Model.Periodo" />
+        </div>
+    </div>
+
+</div>
+
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
+    Add curso
+</button>
+
+<hr />
+
+
+<table id="tblCurso" class="table table-bordered">
+    <thead>
+        <tr class="bg-success">
+            <th>curso </th>
+            <th>profesor </th>
+            <th>aula </th>
+            <th>sede </th>
+            <th>observacion </th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+
+</table>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Curso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form>
+                    <div class="form-group">
+                        <label>Curso:</label>
+                        <select id="cboCurso" class="form-control" aria-describedby="emailHelp">
+
+                            @foreach (var cur in ViewBag.listaCursos)
+                            {
+                                <option value="@cur.IdCurso">@cur.Nombre</option>
+                            }
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Profesor:</label>
+                        <input type="text" id="txtProfesor" class="form-control" aria-describedby="emailHelp" placeholder="profesor">
+                    </div>
+                    <div class="form-group">
+                        <label>Aula:</label>
+                        <input type="text" id="txtAula" class="form-control" aria-describedby="emailHelp" placeholder="aula">
+                    </div>
+                    <div class="form-group">
+                        <label>Sede:</label>
+                        <input type="text" id="txtSede" class="form-control" aria-describedby="emailHelp" placeholder="sede">
+                    </div>
+                    <div class="form-group">
+                        <label>Observacion:</label>
+                        <input type="text" id="txtObservacion" class="form-control" aria-describedby="emailHelp" placeholder="observacion">
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSalirMod" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" onclick="AddCurso()" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+                                var listaCursos = [];
+
+                                $(document).ready(function () {
+
+                                });
+
+                                function AddCurso() {
+
+
+                                    var txtCurso = $("#cboCurso").val();
+                                    var txtCursoDesc = $( "#cboCurso option:selected" ).text();
+                                    var txtProfesor = $("#txtProfesor").val();
+                                    var txtAula = $("#txtAula").val();
+                                    var txtSede = $("#txtSede").val();
+                                    var txtObservacion = $("#txtObservacion").val();
+
+                                    var curso = {
+                                       Idcurso: txtCurso,
+                                       cursoDesc: txtCursoDesc,
+                                       profesor:  txtProfesor,
+                                       aula: txtAula,
+                                       sede: txtSede,
+                                       observacion:  txtObservacion
+                                       };
+
+
+
+                                if( listaCursos.filter(  x => x.Idcurso == txtCurso ).length > 0 ){
+
+                                           $("#btnSalirMod").click();
+                                           alert("curso ya existe");
+                                            return;
+
+                                    }
+
+                                  listaCursos.push(curso);
+
+                                  $("#tblCurso >tbody").empty();
+
+                                   for( let elem of listaCursos ){
+
+                                   let row="<tr>";
+                                       row +="<td>"+elem.cursoDesc;
+                                       row +="<td>"+elem.profesor;
+                                       row +="<td>"+elem.aula;
+                                       row +="<td>"+elem.sede;
+                                       row +="<td>"+elem.observacion;
+
+                                    $("#tblCurso >tbody").append(row);
+
+                                    }
+                                $("#btnSalirMod").click();
+
+
+
+                                 }
+
+
+
+    function GrabarDatos(){
+       
+           
+     if( listaCursos.length == 0 ){
+        alert("Ingrese un curso ");
+            return false;
+     }
+       
+
+    if( $("#txtFechaSolicitud").val() =="" ||
+    $("#txtCodRegistrante").val() =="" ||
+    $("#txtCarrera").val() =="" ||
+    $("#txtPeriodo").val() ==""    
+    ){
+    
+     alert("Todo los campos de la solicitud deben estar lllenos");
+            return false;   
+    
+    }
+
+
+
+    var solicitud={
+    IdAlumno:$("#cbnIdAlumno").val(),
+    FechaSolicitud:$("#txtFechaSolicitud").val(),
+    CodRegistrante:$("#txtCodRegistrante").val(),
+    Carrera:$("#txtCarrera").val(),
+    Periodo:$("#txtPeriodo").val(),
+    detalle:   listaCursos
+    }
+
+
+    $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType:"json",
+            url: '/Solicitud/GrabarRegistro',
+            data: "{ solicitudd :" +  JSON.stringify(solicitud) + "}",
+            success: function (result) {
+
+               if( result.respuesta == "1"){
+
+                        window.location.href='@Url.Action("Listado", "Solicitud")';
+
+                    }else{
+
+                        alert(result.msg );
+
+                    }
+
+            },
+            error: function (xhr) {
+                alert("Error has occurred..");
+            }
+        });
+    }
+
+</script>

@@ -1,0 +1,67 @@
+﻿@model IEnumerable<testColegio.Models.FiltroSolicitud>
+
+@{
+    ViewBag.Title = "Listado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<hr />
+
+@Html.ActionLink("Registrar", "Registro", "Solicitud")
+
+
+<hr />
+
+<h5>Filtrar por...</h5>
+@using (Html.BeginForm("Listado", "Solicitud", FormMethod.Get, new { @class = "form-inline" }))
+{
+    @Html.TextBox("txtPeriodo", "", new { @class = "form-control", @placeholder = "Ingrese periodo" })
+    @Html.TextBox("txtFecha", "", new { @class = "form-control", @placeholder = "Ingrese fecha" })
+    @Html.TextBox("txtAlumno", "", new { @class = "form-control", @placeholder = "Ingrese nombre o id de alumno" })
+    @Html.TextBox("txtCurso", "", new { @class = "form-control", @placeholder = "Ingrese curso" })
+
+    <button type="submit" class="btn btn-success">Buscar </button>
+
+}
+
+<hr />
+
+<table class="table table-bordered">
+    <thead>
+        <tr class="bg-primary">
+            <td>Alumno
+            <td>Fecha Solicitud
+            <td>Registrante
+            <td>Carrera
+            <td>Periodo
+            <td>Sede
+            <td>curso
+            <td>Profesor
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var ele in Model)
+        {
+
+            <tr>
+                <td>@ele.Nombres
+                <td>@ele.FechaSolicitud.ToString("dd/MM/yyyy")
+                <td>@ele.CodRegistrante
+                <td>@ele.Carrera
+                <td>@ele.Periodo
+                <td>@ele.Sede
+                <td>@ele.cursoDescripcion
+                <td>@ele.Profesor
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+
+
