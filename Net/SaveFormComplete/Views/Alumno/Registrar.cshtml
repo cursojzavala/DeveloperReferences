@@ -1,0 +1,79 @@
+﻿@model FormComplete.Models.Alumno
+
+@{
+    ViewBag.Title = "Registrar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Registrar</h2>
+
+@{
+    var listaCursos = (List<FormComplete.Models.Curso>)ViewBag.listaCursos;
+}
+
+@using (Html.BeginForm("Registrar", "Alumno", FormMethod.Post))
+{
+
+    <div class="form-group ">
+        <label>
+            @Html.DisplayNameFor(m => m.Nombre)
+        </label>
+        @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+
+        @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
+
+    </div>
+
+    <div class="form-group ">
+        <label>
+            @Html.DisplayNameFor(m => m.Apellidos)
+        </label>
+        @Html.TextBoxFor(m => m.Apellidos, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m=>m.Apellidos,"", new { @class="text-danger" } )
+
+    </div>
+
+    <div class="form-group ">
+        <label>
+            @Html.DisplayNameFor(m => m.direccion)
+        </label>
+        @Html.TextBoxFor(m => m.direccion, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m=>m.direccion,"", new { @class="text-danger" } )
+    </div>
+
+    <div class="form-group ">
+        <label>
+            @Html.DisplayNameFor(m => m.sexo)
+        </label>
+        <p>Masculino @Html.RadioButtonFor(m => m.sexo, "M")</p>
+        <p>Femenino @Html.RadioButtonFor(m => m.sexo, "F")</p>
+
+        @Html.ValidationMessageFor(m=>m.sexo,"", new { @class="text-danger" })
+    </div>
+
+    <div class="panel panel-default">
+
+        @Html.ValidationMessageFor(m=> m.cursos,"",new { @class="text-danger" } )
+
+        <div class="panel-body bg-success ">
+
+            @foreach (var curso in listaCursos)
+            {
+                if (curso.Select)
+                {
+                    <input type="checkbox" name="cursos" class="form-control" checked value="@curso.IdCurso" />@curso.Nombre                     
+                }
+                else
+                {
+                    <input type="checkbox" name="cursos"    value="@curso.IdCurso" />@curso.Nombre
+                }
+            }
+
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+
+
+

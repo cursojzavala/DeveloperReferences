@@ -1,0 +1,77 @@
+﻿
+@model  IEnumerable<FormComplete.ORM.Alumno>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Alumnos registrados</h2>
+
+@Html.ActionLink("Registrar", "Registrar", "Alumno")
+
+
+<div class="panel">
+
+    <div class="panel-body">
+        <table class="table table-bordered">
+
+            <thead>
+                <tr class="bg-info" >
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Apellidos
+                    </th>
+                    <th>
+                        Direccion
+                    </th>
+                    <th>
+                        Sexo
+                    </th>
+                    <th>
+                        
+                    </th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var alumno in Model)
+                {
+                    <tr>
+                        <td>
+                            @alumno.Nombre
+                        </td>
+                        <td>
+                            @alumno.Apellidos
+                        </td>
+                       
+                        <td>
+                            @alumno.Direccion
+                        </td>
+                        <td>
+                            @alumno.sexo
+                        </td>
+                        <td>
+                           <a href="@Url.Action("Registrar","Alumno",new {IdAlumno=alumno.IdAlumno })">                               
+                               Editar                               
+                           </a>
+                        </td>
+
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+
+
+
